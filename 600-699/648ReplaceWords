@@ -1,0 +1,56 @@
+class Solution {
+    static class TrieNode {
+        TrieNode[] children;
+        boolean isEnd;
+        TrieNode() {
+            children = new TrieNode[256];
+        }
+    }
+
+    public static String replaceWords(List<String> dictionary, String sentence) {
+
+
+        TrieNode head = new TrieNode();
+        TrieNode[] nodes ;
+        // set up a tree
+        for (int i = 0 ; i < dictionary.size(); i ++){
+            nodes = head.children;
+            for (int j = 0; j < dictionary.get(i).length(); j ++){
+                if (nodes[dictionary.get(i).charAt(j)] == null){
+                    nodes[dictionary.get(i).charAt(j)] = new TrieNode();
+                }
+                if (j == dictionary.get(i).length() - 1){
+                    nodes[dictionary.get(i).charAt(j)].isEnd = true;
+                }
+                nodes = nodes[dictionary.get(i).charAt(j)].children;
+            }
+            
+        }
+
+        String[] strings  = sentence.split(" ");
+        StringBuilder str = new StringBuilder();
+
+        for (String s : strings) {
+            // search tree
+            nodes = head.children;
+            int i = 0;
+            boolean t = false;
+            while (i < s.length() && nodes[s.charAt(i)] != null){
+                t = nodes[s.charAt(i)].isEnd;
+                nodes = nodes[s.charAt(i)].children;
+                i ++;
+                if (t){
+                    break;
+                }
+            }
+            if ((i >= s.length() || nodes[s.charAt(i)] == null) && t){
+                str.append(s.substring(0,i)).append(" ");
+            }else if (t){
+                str.append(s.substring(0,i)).append(" ");
+            } else {
+                str.append(s).append(" ");
+            }
+        }
+        return str.toString().trim();
+    }
+}
