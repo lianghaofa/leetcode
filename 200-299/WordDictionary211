@@ -1,0 +1,63 @@
+public class WordDictionary {
+
+    static class TrieNode {
+        TrieNode[] children;
+        boolean isEnd;
+
+        TrieNode() {
+            children = new TrieNode[26];
+        }
+    }
+
+    static TrieNode head;
+
+    public WordDictionary() {
+        head = new TrieNode();
+    }
+
+    public void addWord(String word) {
+        TrieNode node = head;
+        for (int i = 0; i < word.length(); i ++){
+            char c = word.charAt(i);
+            int cA = c - 'a';
+            if (node.children[cA] == null){
+                node.children[cA] = new TrieNode();
+            }
+            node = node.children[cA];
+        }
+        node.isEnd = true;
+    }
+
+    public boolean search(String word) {
+        if (word.length() == 0){
+            return true;
+        }
+        return search1(word.substring(0,word.length()),head.children);
+    }
+
+    public boolean search1(String word,TrieNode[] nodes) {
+        for (int i = 0; i < word.length(); i ++){
+            char c = word.charAt(i);
+            int cA = c - 'a';
+            if (c == '.'){
+                for (TrieNode node : nodes){
+                    if (node == null){
+                        continue;
+                    } else if (i == word.length() - 1 && node.isEnd){
+                        return true;
+                    }else if (search1(word.substring(i + 1,word.length()),node.children)){
+                        return true;
+                    }
+                }
+                return false;
+            } else if (nodes[cA] == null){
+                return false;
+            }else if (i == word.length() - 1){
+                return nodes[cA].isEnd;
+            } else{
+                nodes = nodes[cA].children;
+            }
+        }
+        return false;
+    }
+}
