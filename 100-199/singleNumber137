@@ -1,0 +1,27 @@
+public class Num {
+    
+    public static int singleNumber0(int[] nums) {
+        int x = 1, res = 0;
+        for (int i = 0; i <= 31; i ++,x <<= 1){
+            int count = 0;
+            for (int num : nums) {
+                count += (num & x) == 0 ? 0 : 1;
+            }
+            if (count % 3 > 0){
+                res |= x;
+            }
+        }
+        return res;
+    }
+
+    public int singleNumber(int[] nums) {
+        int a = 0, b = 0;
+        for (int num : nums) {
+            int aNext = (~a & b & num) | (a & ~b & ~num), bNext = ~a & (b ^ num);
+            a = aNext;
+            b = bNext;
+        }
+        return b;
+    }
+
+}
