@@ -1,0 +1,41 @@
+public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null) {
+            return l2 == null ? l1 : l2;
+        }
+        ListNode h1 = l1, h2 = l2, last = l1;
+        int count = 0, c = 0;
+        while (h1 != null) {
+            int x = h1.val, y = 0;
+            if (h2 != null) {
+                y = h2.val;
+                h2 = h2.next;
+            }
+            c = x + y + count;
+            count = c / 10;
+            h1.val = c % 10;
+            last = h1;
+            h1 = h1.next;
+        }
+        while (h2 != null) {
+            int y = h2.val;
+            c = y + count;
+            count = c / 10;
+            h2.val = c;
+            last.next = h2;
+            last = h2;
+            h2 = h2.next;
+        }
+        if (count > 0) {
+            last.next = new ListNode(count);
+        }
+        return l1;
+    }
