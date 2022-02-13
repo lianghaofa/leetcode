@@ -1,0 +1,12 @@
+public class DP {
+
+public int maxScoreSightseeingPair(int[] values) {
+        int max = values[values.length - 1];
+        int res = -1;
+        for (int i = values.length - 1; i >= 0; i--){
+            res = Math.max(res,values[i] + (--max)  + i);
+            max = Math.max(values[i],max);
+        }
+        return res;
+    }
+}
