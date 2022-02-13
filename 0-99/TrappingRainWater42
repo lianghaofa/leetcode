@@ -1,0 +1,25 @@
+public class TrappingRainWater {
+    
+    public int trap(int[] height) {
+        int[] arr = new int[height.length + 1];
+        arr[height.length] = 0;
+        for (int i = height.length - 1; i >= 0; i --){
+            arr[i] = Math.max(height[i], arr[i + 1]);
+        }
+        int max = 0;
+        int res = 0;
+        for (int i = 0; i < height.length; i ++){
+            // left max = max
+            // right max = arr[i+1]
+            int h = Math.min(max,arr[i+1]);
+            int r = h - height[i];
+            res = Math.max(0,h - height[i]);
+            if (height[i] < h){
+                res += (h - height[i]);
+            }
+            max = Math.max(max,height[i]);
+        }
+        return res;
+    }
+    
+}
