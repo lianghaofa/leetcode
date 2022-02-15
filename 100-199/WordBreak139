@@ -1,0 +1,22 @@
+public class WordBreak139 {
+
+    public static boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> set = new HashSet<>(wordDict);
+        StringBuilder str = new StringBuilder(s);
+        boolean[] res = new boolean[s.length()];
+        for (int i = 0; i < res.length; i ++){
+            if (res[i] || set.contains(str.substring(0,i + 1))){
+                res[i] = true;
+                for (int j = i + 1; j < str.length(); j ++){
+                    if (res[j]){
+                        continue;
+                    }
+                    if (set.contains(str.substring(i + 1,j + 1))){
+                        res[j] = true;
+                    }
+                }
+            }
+        }
+        return res[s.length() - 1];
+    }
+}
