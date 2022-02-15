@@ -1,0 +1,27 @@
+public class Divide {
+    
+    public static int divide(int dividend, int divisor) {
+        if (dividend == Integer.MIN_VALUE && divisor == -1){
+            return Integer.MAX_VALUE;
+        }
+        boolean sign = (dividend >= 0 || divisor <= 0) && (dividend <= 0 || divisor >= 0);
+        if (dividend > 0){
+            dividend = - dividend;
+        }
+        if (divisor > 0){
+            divisor = - divisor;
+        }
+        int res = 0;
+        while (divisor >= dividend){
+            int r = divisor + divisor,pre = divisor,i = 1;
+            for (; pre > r && r > dividend;i <<= 1){
+                pre = r;
+                r += r;
+            }
+            dividend -= pre;
+            res += i;
+        }
+        return res < 0 && sign || res > 0 && !sign ? - res : res;
+    }
+
+}
