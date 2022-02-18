@@ -1,0 +1,63 @@
+public class MaximumRepeatingSubstring1668 {
+
+    public static int maxRepeating(String sequence, String word) {
+        StringBuilder str = new StringBuilder(word);
+        int count = 0;
+        while (true){
+            int r = findIndex(sequence.toCharArray(),str.toString().toCharArray());
+            if (r == -1){
+                break;
+            }
+            count ++;
+            str.append(word);
+        }
+        return count;
+    }
+
+
+    private static int findIndex(char[] sequence, char[] word){
+        int[] next = getNextArr(word);
+        int j = 0;
+        for (int i = 0; i < sequence.length;){
+            if (sequence[i] == word[j]){
+                j ++;
+                i ++;
+            }else {
+                j = next[j];
+                if (j == -1){
+                    j = 0;
+                    i ++;
+                }
+            }
+            if (j >= word.length){
+                return i - word.length;
+            }
+        }
+        return -1;
+    }
+
+
+    private static int[] getNextArr(char[] chars) {
+        if (chars.length <= 1) {
+            return new int[]{-1};
+        }
+        int[] next = new int[chars.length];
+        next[0] = -1;
+        int cn = 0;
+        for (int i = 2; i < chars.length; ) {
+
+            if (chars[cn] == chars[i - 1]) {
+                next[i] = cn + 1;
+                cn++;
+                i++;
+            } else if (cn > 0) {
+                cn = next[cn];
+            } else {
+                next[i] = 0;
+                i++;
+            }
+        }
+        return next;
+    }
+
+}
