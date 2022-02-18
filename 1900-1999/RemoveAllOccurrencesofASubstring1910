@@ -1,0 +1,56 @@
+public class RemoveAllOccurrencesofASubstring1910 {
+    public String removeOccurrences(String s, String part) {
+        StringBuilder str = new StringBuilder(s);
+        int index = findIndex(str.toString().toCharArray(),part.toCharArray());
+        while (index != -1){
+            str.delete(index,index + part.length());
+            index = findIndex(str.toString().toCharArray(),part.toCharArray());
+        }
+        return str.toString();
+    }
+
+    private static int findIndex(char[] sequence, char[] word){
+        int[] next = getNextArr(word);
+        int j = 0;
+        for (int i = 0; i < sequence.length;){
+            if (sequence[i] == word[j]){
+                j ++;
+                i ++;
+            }else {
+                j = next[j];
+                if (j == -1){
+                    j = 0;
+                    i ++;
+                }
+            }
+            if (j >= word.length){
+                return i - word.length;
+            }
+        }
+        return -1;
+    }
+
+    private static int[] getNextArr(char[] chars){
+        if (chars.length <= 1){
+            return new int[]{-1};
+        }
+        int[] next = new int[chars.length];
+        next[0] = -1;
+        int cn = 0;
+        for (int i = 2; i < chars.length; ){
+
+            if (chars[cn] == chars[i - 1]){
+                next[i] = cn + 1;
+                cn ++;
+                i ++;
+            }else if (cn > 0){
+                cn = next[cn];
+            } else {
+
+                next[i] = 0;
+                i ++;
+            }
+        }
+        return next;
+    }
+}
