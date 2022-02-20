@@ -1,0 +1,24 @@
+public class FourSumCount {
+
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        HashMap<Integer,Integer> set0 = new HashMap<>();
+        for (int item : nums1) {
+            for (int value : nums2) {
+                int sum = item + value;
+                set0.merge(sum, 1, Integer::sum);
+            }
+        }
+        int count = 0;
+        for (int item : nums3) {
+            for (int value : nums4) {
+                int sum = item + value;
+                Integer val = set0.get(-sum);
+                if (val != null){
+                    count += val ;
+                }
+            }
+        }
+        return count;
+    }
+
+}
