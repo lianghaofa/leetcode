@@ -1,0 +1,15 @@
+public class MatrixDiagonalSum {
+
+    public int diagonalSum(int[][] mat) {
+        int i = 0,j = 0,r = mat[0].length - 1,sum = 0;
+        for (;i < mat.length && j < mat[0].length; i ++, j ++, r --){
+            sum += mat[i][j];
+            sum += mat[i][r];
+        }
+        if (mat.length % 2 == 1){
+            sum -= mat[i / 2][j / 2];
+        }
+        return sum;
+    }
+
+}
