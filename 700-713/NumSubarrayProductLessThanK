@@ -1,0 +1,25 @@
+public class NumSubarrayProductLessThanK {
+
+    public static void main(String[] args) {
+        int[] arr = new int[]{57,44,92,28,66,60,37,33,52,38,29,76,8,75,22};
+        numSubarrayProductLessThanK(arr,18);
+    }
+
+    public static int numSubarrayProductLessThanK(int[] nums, int k) {
+        int res = 0, product = nums[0], j = 0;
+        for (int i = 0;i < nums.length; i ++){
+            if (j < i){
+                j = i;
+            }
+            while (j < nums.length && product * nums[j] < k){
+                product *= nums[j ++];
+            }
+            if (product < k){
+                res += (j - i);
+                product /= nums[i];
+            }
+            product /= nums[i];
+        }
+        return res;
+    }
+}
