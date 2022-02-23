@@ -1,0 +1,29 @@
+public class ReverseOnlyLetters {
+
+    public String reverseOnlyLetters(String s) {
+        char[] chars = s.toCharArray();
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r){
+            while (l < chars.length && !isLetter(chars[l])){
+                l ++;
+            }
+            while (r >= 0 && !isLetter(chars[r])){
+                r --;
+            }
+            if (l < r){
+                char temp = chars[l];
+                chars[l] = chars[r];
+                chars[r] = temp;
+                l ++;
+                r --;
+            }
+        }
+        return new String(chars);
+    }
+
+    private boolean isLetter(char c) {
+        return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z';
+    }
+
+}
