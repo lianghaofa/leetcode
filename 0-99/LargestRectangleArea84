@@ -1,0 +1,54 @@
+public class LargestRectangleArea {
+
+    // 84 https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
+
+    public static void main(String[] args) {
+        int[] arr = new int[]{2,1,5,6,2,3};
+        largestRectangleArea(arr);
+    }
+
+    static class Node{
+        int index;
+        int height;
+        Node(int height,int index){
+            this.index = index;
+            this.height = height;
+        }
+    }
+
+    public static int largestRectangleArea(int[] heights) {
+        Deque<Node> stack = new LinkedList<>();
+        int res = 0;
+        for (int i = 0; i < heights.length; i ++){
+            int r = keepStack(stack,new Node(heights[i],i));
+            res = Math.max(r,res);
+        }
+        int r = keepStack(stack,new Node(0,heights.length));
+        stack.pop();
+        res = Math.max(r,res);
+        return res;
+    }
+
+    private static int keepStack(Deque<Node> stack, Node node){
+        if (stack.isEmpty()){
+            stack.push(node);
+            return 0;
+        }
+        Node top = stack.peek();
+        int max = 0;
+        while (!stack.isEmpty() && node.height <= top.height){
+            stack.pop();
+            int i = -1;
+            Node top1 = null;
+            if (!stack.isEmpty()){
+                top1 = stack.peek();
+                i = top1.index;
+            }
+            max = Math.max(max,top.height * (node.index - i - 1));
+            top = top1;
+        }
+        stack.push(node);
+        return max;
+    }
+    
+}
