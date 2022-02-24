@@ -1,0 +1,20 @@
+public class CountSquares {
+    public int countSquares(int[][] matrix) {
+        if (matrix.length == 0){
+            return 0;
+        }
+        int res = 0;
+        int[][] dp = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i ++){
+            for (int j = 0; j < matrix[0].length; j ++){
+                if (i == 0 || j == 0 || matrix[i][j] == 0){
+                    dp[i][j] = matrix[i][j];
+                }else {
+                    dp[i][j] = Math.min(dp[i - 1][j],Math.min(dp[i - 1][j - 1],dp[i][j - 1])) + 1;
+                }
+                res += dp[i][j];
+            }
+        }
+        return res;
+    }
+}
