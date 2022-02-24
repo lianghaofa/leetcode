@@ -1,0 +1,24 @@
+public class IsSubsequence {
+
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() == 0){
+            return true;
+        }
+        if (t.length() == 0){
+            return false;
+        }
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        int i = 0;
+        for (char c : tChars){
+            if (c == sChars[i]){
+                i ++;
+            }
+            if (i > sChars.length){
+                return true;
+            }
+        }
+        return false;
+    }
+
+}
