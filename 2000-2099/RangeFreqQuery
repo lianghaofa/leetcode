@@ -1,0 +1,65 @@
+public class RangeFreqQuery {
+
+    HashMap<Integer, List<Integer>> hashMap = new HashMap<>();
+    public RangeFreqQuery(int[] arr) {
+        for (int i = 0; i < arr.length; i ++){
+            List<Integer> list = hashMap.get(arr[i]);
+            if (list == null){
+                list = new ArrayList<>();
+            }
+            list.add(i);
+            hashMap.put(arr[i],list);
+        }
+    }
+
+    public  int query(int left, int right, int value) {
+        List<Integer> list = hashMap.get(value);
+        if (list == null){
+            return 0;
+        }
+        // l 不管是否存在，都是left-right 的第一位元素
+        int l = lowerBound(list,left);
+        // r 不管是否存在，都是left-right 的后一位元素
+        int r = upperBound(list,right);
+
+        // 正常来说，元素个数为 r - l + 1    但此处 r 为 left-right 的后一位元素
+        return r - l;
+    }
+
+
+    private  int lowerBound(List<Integer> list,int target){
+        int l = 0;
+        int r = list.size();
+        int count = r - l;
+        while (count > 0) {
+            int step = count >> 1;
+            int mid = l + step;
+            if (target > list.get(mid)) {
+                l = mid + 1;
+                count -= step + 1;
+            } else {
+                count = step;
+            }
+        }
+        return l;
+    }
+
+    public  int upperBound(List<Integer> list, int target){
+        int l = 0;
+        int r = list.size();
+        int count = r - l;
+        while (count > 0)
+        {
+            int step = count >> 1;
+            int mid =  l + step;
+            if (target >= list.get(mid)) {
+                l = mid + 1;
+                count -= step + 1;
+            }else {
+                count = step;
+            }
+        }
+        return l;
+    }
+
+}
