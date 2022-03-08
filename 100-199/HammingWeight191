@@ -1,0 +1,43 @@
+public class HammingWeight {
+
+
+    public static void main(String[] args) {
+        long start = 0,end = 0;
+        start = System.currentTimeMillis();
+        for (int i = -10000000; i < 10000000; i ++){
+            hammingWeight0(i + 1);
+        }
+        end = System.currentTimeMillis();
+        System.out.println(end - start);
+        start = System.currentTimeMillis();
+        for (int i = -10000000; i < 10000000; i ++){
+            hammingWeight1(i + 1);
+        }
+        end = System.currentTimeMillis();
+        System.out.println(end - start);
+
+    }
+
+
+
+    public static int hammingWeight0(int n) {
+        int count = 0;
+        while (n != 0){
+            n &= n-1;
+            count ++;
+        }
+        return count;
+    }
+
+    public static int hammingWeight1(int n) {
+        int bit = (n & -n);
+        int count = 0;
+        while (bit != 0){
+            count ++;
+            n ^= bit;
+            bit = (n & -n);
+        }
+        return count;
+    }
+
+}
