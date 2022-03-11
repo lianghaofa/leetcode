@@ -1,0 +1,19 @@
+public class JudgeCircle {
+
+    public boolean judgeCircle(String moves) {
+        int u = 0,l = 0;
+        for (int i = 0; i < moves.length(); i ++){
+            char move = moves.charAt(i);
+            if (move == 'U'){
+                u ++;
+            }else if (move == 'D'){
+                u --;
+            }else if (move == 'L'){
+                l ++;
+            }else {
+                l --;
+            }
+        }
+        return l == 0 && u == 0;
+    }
+}
