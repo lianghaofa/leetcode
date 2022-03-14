@@ -1,0 +1,30 @@
+class Solution {
+    public static boolean isNStraightHand(int[] hand, int groupSize) {
+        int size = hand.length;
+        if (size % groupSize != 0){
+            return false;
+        }
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+        for (int value : hand) {
+            map.merge(value, 1, Integer::sum);
+        }
+        while (size > 0){
+            int m = map.firstKey();
+            for (int i = 0;i < groupSize; i ++){
+                Integer c = map.get(m + i);
+                if (c == null || c <= 0){
+                    return false;
+                }else {
+                    c --;
+                    if (c == 0){
+                        map.remove(m + i);
+                    }else {
+                        map.put(m + i,c);
+                    }
+                }
+            }
+            size -= groupSize;
+        }
+        return true;
+    }
+}
