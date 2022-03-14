@@ -1,0 +1,22 @@
+class Solution {
+    public String[] findRestaurant(String[] list1, String[] list2) {
+        HashMap<String,Integer> map = new HashMap<>();
+        for (int i = 0; i < list1.length; i ++){
+            map.put(list1[i],i);
+        }
+        int max = Integer.MAX_VALUE;
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < list2.length; i ++){
+            Integer r = map.get(list2[i]);
+            if (r == null || map.get(list2[i]) + i > max){
+                continue;
+            }
+            if (map.get(list2[i]) + i < max){
+                list = new ArrayList<>();
+            }
+            list.add(list2[i]);
+            max = Math.min(max,map.get(list2[i]) + i);
+        }
+        return list.toArray(new String[0]);
+    }
+}
