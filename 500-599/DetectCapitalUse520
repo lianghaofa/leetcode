@@ -1,0 +1,17 @@
+public class DetectCapitalUse {
+
+
+    public boolean detectCapitalUse(String word) {
+        if (word.length() <= 1){
+            return true;
+        }
+        boolean lowerCase = Character.isLowerCase(word.charAt(1));
+        for (int i = 2; i < word.length(); i ++){
+            if (Character.isLowerCase(word.charAt(i)) != lowerCase){
+                return false;
+            }
+        }
+        return lowerCase || !Character.isLowerCase(word.charAt(0));
+    }
+    
+}
