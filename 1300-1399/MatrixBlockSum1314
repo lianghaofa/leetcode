@@ -1,0 +1,39 @@
+public class MatrixBlockSum {
+
+    public static void main(String[] args) {
+        int[][] mat = new int[3][];
+        mat[0] = new int[]{1,2,3};
+        mat[1] = new int[]{4,5,6};
+        mat[2] = new int[]{7,8,9};
+        matrixBlockSum(mat,1);
+    }
+
+    public static int[][] matrixBlockSum(int[][] mat, int k) {
+        int[][] temp = new int[mat.length][mat[0].length];
+        int[][] res = new int[mat.length][mat[0].length];
+        for (int i = 0;i < temp.length; i ++){
+            int sum = 0;
+            for (int j = 0; j < temp[i].length; j ++){
+                sum += mat[i][j];
+                temp[i][j] = (i - 1 >= 0 ? temp[i - 1][j] : 0) +  sum;
+            }
+        }
+        for (int i = 0;i < temp.length; i ++){
+            for (int j = 0; j < temp[i].length; j ++){
+                int row1 = i - k - 1,col1 = j - k - 1,row2 = i + k,col2 = j + k,col = col2 >= temp[i].length ? temp[i].length - 1: col2,row = row2 >= temp.length ? temp.length - 1 : row2;
+                int leftTop = 0,rightTop = 0,downLeft = 0,downRight = temp[row][col];
+                if (row1 >= 0 && col1 >= 0){
+                    leftTop = temp[row1][col1];
+                }
+                if (row1 >= 0){
+                    rightTop = temp[row1][col];
+                }
+                if (col1 >= 0){
+                    downLeft = temp[row][col1];
+                }
+                res[i][j] = downRight - rightTop - downLeft + leftTop;
+            }
+        }
+        return res;
+    }
+}
