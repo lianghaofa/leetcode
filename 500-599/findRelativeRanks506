@@ -1,0 +1,29 @@
+public class FindRelativeRanks {
+
+    public static void main(String[] args) {
+        findRelativeRanks(new int[]{10,3,8,9,4});
+    }
+
+    public static String[] findRelativeRanks(int[] score) {
+
+        int[] copy = Arrays.copyOf(score,score.length);
+        Arrays.sort(copy);
+        String[] res = new String[score.length];
+        for (int i = 0;i < score.length;i ++){
+            int r = Arrays.binarySearch(copy,score[i]);
+            String str;
+            if (score.length - r == 1){
+                str = "Gold Medal";
+            }else if (score.length - r == 2){
+                str = "Silver Medal";
+            }else if (score.length - r == 3){
+                str = "Bronze Medal";
+            }else {
+                str = String.valueOf(i + 1);
+            }
+            res[i] = str;
+        }
+        return res;
+    }
+
+}
