@@ -1,0 +1,28 @@
+public class CountMaxOrSubsets {
+
+    int max = 0;
+    int cnt = 0;
+    public int countMaxOrSubsets(int[] nums) {
+
+        countMax(nums,0,0);
+        return cnt;
+    }
+
+    private void countMax(int[] nums,int start,int or) {
+        if (start == nums.length){
+            if (or == max){
+                cnt ++;
+                return;
+            }
+            if (or > max){
+                cnt = 1;
+                max = or;
+                return;
+            }
+            return ;
+        }
+        countMax(nums,start + 1,or);
+        countMax(nums,start + 1,or | nums[start]);
+    }
+    
+}
