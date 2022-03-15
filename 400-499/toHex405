@@ -1,0 +1,30 @@
+public String toHex(int num) {
+        char[] nums = new char[]{'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+
+        int b0 = 1,b1 = 2,b2 = 4,b3 = 8;
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < 8; i ++){
+            int r = 0;
+            if ((b0 & num) != 0){
+                r += (b0 & num);
+            }
+            if ((b1 & num) != 0){
+                r += 2;
+            }
+            if ((b2 & num) != 0){
+                r += 4;
+            }
+            if ((b3 & num) != 0){
+                r += 8;
+            }
+            str.append(nums[r]);
+            b0 <<= 4;
+            b1 <<= 4;
+            b2 <<= 4;
+            b3 <<= 4;
+        }
+        while (str.length() > 0 && str.charAt(str.length() - 1) == '0'){
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.length() > 0 ? str.reverse().toString() : "0";
+    }
