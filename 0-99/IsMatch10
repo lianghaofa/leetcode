@@ -1,0 +1,71 @@
+public class IsMatch {
+
+
+    public boolean isMatch(String s, String p) {
+        char[] pArr = p.toCharArray();
+        char[] sArr = s.toCharArray();
+        boolean[][] res = new boolean[p.length()][s.length()];
+        for (int i = 0;i < res.length; i ++){
+            for (int j = 0;j < res[i].length;j ++){
+                if (p.charAt(i) == '*'){
+                    boolean pre = i -1 >= 0 && (sArr[j] == pArr[i - 1] || pArr[i - 1] == '.');
+                    // 0
+                    boolean zero = i - 2 >= 0 && getMatch(res,pArr,i - 2,j );
+                    // 1
+                    boolean one = pre && getMatch(res,pArr,i - 2,j - 1);
+                    // more
+                    boolean more = pre && getMatch(res,pArr,i ,j - 1);
+                    res[i][j] = zero || one || more;
+                }else if (pArr[i] == '.' || pArr[i] == sArr[j]){
+                    res[i][j] = getMatch(res,pArr,i - 1,j - 1);
+                }
+            }
+        }
+        return res[p.length() - 1][s.length() - 1];
+    }
+
+    private boolean getMatch(boolean[][] res,char[] p,int pEnd,int sEnd) {
+        if (sEnd >= 0 && pEnd >= 0){
+            return res[pEnd][sEnd];
+        }
+        if (sEnd < 0){
+            while (pEnd >= 0 && p[pEnd] == '*'){
+                pEnd -= 2;
+            }
+            return pEnd < 0;
+        }else {
+            return false;
+        }
+    }
+
+
+    private boolean match(char[] s,char[] p,int sEnd,int pEnd) {
+        if (sEnd < 0){
+            // check
+            while (pEnd >= 0 && p[pEnd] == '*'){
+                pEnd -= 2;
+            }
+            return pEnd < 0;
+        }
+        if (pEnd < 0){
+            return false;
+        }
+        if (p[pEnd] == '*'){
+            // 0
+            boolean zero = match(s,p,sEnd,pEnd - 2);
+            // 1
+            boolean one = pEnd -1 >= 0 && (s[sEnd] == p[pEnd - 1] || p[pEnd - 1] == '.')  && match(s,p,sEnd - 1,pEnd - 2);
+            // more
+            boolean more = pEnd -1 >= 0 && (s[sEnd] == p[pEnd - 1] || p[pEnd - 1] == '.') && match(s,p,sEnd - 1,pEnd);
+            return zero || one || more;
+
+        }else if (p[pEnd] == '.'){
+            return match(s,p,sEnd - 1,pEnd - 1);
+        }else if (p[pEnd] == s[sEnd]){
+            return match(s,p,sEnd - 1,pEnd - 1);
+        } else {
+            return false;
+        }
+
+    }
+}
