@@ -1,0 +1,23 @@
+public class CountLargestGroup {
+
+    public int countLargestGroup(int n) {
+        int sum = 0, count = 0, max = 0;
+        int[] arrays = new int[37];
+        for (int i = 1; i <= n; i++) {
+            if (i % 10 == 0) {
+                int num = i;
+                sum = 0;
+                while (num > 0) {
+                    sum += num % 10;
+                    num /= 10;
+                }
+            }
+            max = Math.max(arrays[i % 10 + sum] += 1, max);
+        }
+        for (int i : arrays) {
+            count += i == max ? 1 : 0;
+        }
+        return count;
+    }
+
+}
