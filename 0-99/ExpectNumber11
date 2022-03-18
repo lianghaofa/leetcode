@@ -1,0 +1,10 @@
+public class ExpectNumber {
+
+    public int expectNumber(int[] scores) {
+        Set<Integer> set = new HashSet<>();
+        for (int i : scores){
+            set.add(i);
+        }
+        return set.size();
+    }
+}
