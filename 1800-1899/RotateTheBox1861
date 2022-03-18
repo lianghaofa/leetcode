@@ -1,0 +1,34 @@
+public class RotateTheBox {
+
+    public char[][] rotateTheBox(char[][] box) {
+        if (box.length == 0){
+            return new char[][]{};
+        }
+        char[][] ans = new char[box[0].length][box.length];
+        for (int i = 0;i < box.length;i ++){
+            int count = 0,col = ans[0].length  -  1 - i;
+            for (int j = 0;j <= box[i].length;j ++){
+                if (j == box[i].length){
+                    while (count > 0){
+                        ans[j - count][col] = '#';
+                        count --;
+                    }
+                    continue;
+                }else if (box[i][j] == '#'){
+                    count ++;
+                }else if (box[i][j] == '*'){
+                    ans[j][col] = '*';
+                    while (count > 0){
+                        ans[j - count][col] = '#';
+                        count --;
+                    }
+                }
+                if (ans[j][i] == '\0'){
+                    ans[j][i] = '.';
+                }
+            }
+        }
+        return ans;
+    }
+
+}
