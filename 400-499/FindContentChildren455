@@ -1,0 +1,18 @@
+public class FindContentChildren {
+
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int l0 = 0,l1 = 0,count = 0;
+        while (l0 < g.length && l1 < s.length){
+            if (g[l0] <= s[l1]){
+                count ++;
+                l0 ++;
+                l1 ++;
+            }else {
+                l1 ++;
+            }
+        }
+        return count;
+    }
+}
