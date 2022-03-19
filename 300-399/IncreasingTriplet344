@@ -1,0 +1,18 @@
+public class IncreasingTriplet {
+
+    public boolean increasingTriplet(int[] nums) {
+        int a = Integer.MAX_VALUE;
+        int b = Integer.MAX_VALUE;
+
+        for (int e : nums) {
+            if (e <= a) {
+                a = e;
+            } else if (e <= b) {
+                b = e;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+}
