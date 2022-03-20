@@ -1,0 +1,23 @@
+class Solution {
+    public int findComplement(int num) {
+        if (num == 0) {
+            return 1;
+        }
+        int highest = getHighest(num);
+        int h = highest - 1 + highest;
+        return num ^ h;
+    }
+
+    private int getHighest(int num){
+        int lb = lowestBit(num);
+        while ((num ^ lb)  != 0){
+            num ^= lb;
+            lb = lowestBit(num);
+        }
+        return lb;
+    }
+
+    private int lowestBit(int n){
+        return n & -n;
+    }
+}
