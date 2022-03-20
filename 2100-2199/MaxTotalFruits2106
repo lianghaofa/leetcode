@@ -1,0 +1,41 @@
+public class MaxTotalFruits {
+
+    public static void main(String[] args) {
+        int[][] fruits = new int[3][];
+        fruits[0] = new int[]{2,8};
+        fruits[1] = new int[]{6,3};
+        fruits[2] = new int[]{8,6};
+
+
+        maxTotalFruits(fruits, 5, 4);
+    }
+
+    public static int maxTotalFruits(int[][] fruits, int startPos, int k) {
+        int ans = 0;
+        int[] sumArr = new int[2 * k + 1];
+        for (int[] fruit : fruits) {
+            int abs = Math.abs(startPos - fruit[0]);
+            if (abs > k){
+                continue;
+            }
+            if (fruit[0] > startPos){
+                sumArr[k + abs] = fruit[1];
+            }else {
+                sumArr[k- abs] = fruit[1];
+            }
+        }
+        for (int i = 1;i < sumArr.length;i ++){
+            sumArr[i] = sumArr[i - 1] + sumArr[i];
+        }
+        for (int i = 0; i <=  k; i ++){
+            //int radius = (startPos - i);
+            int step = i * 2;
+            int last = k - step;
+            int lFirst = sumArr[k + last] - (k - i - 1 < 0 ? 0 : sumArr[k - i - 1]);
+            int rFirst = sumArr[k + i] -  (k - last - 1 < 0 ? 0 : sumArr[k - last - 1]);
+            ans = Math.max(Math.max(lFirst,rFirst),ans);
+        }
+        return ans;
+    }
+
+}
