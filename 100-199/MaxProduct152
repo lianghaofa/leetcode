@@ -1,0 +1,29 @@
+public class MaxProduct {
+
+    public int maxProduct(int[] nums) {
+        if (nums.length <= 0){
+            return 0;
+        }
+        int positive_1 = 0;
+        int negative_1 = 0;
+        int ans = nums[0];
+        if (nums[0] > 0){
+            positive_1 = nums[0];
+        }else {
+            negative_1 = nums[0];
+        }
+        for (int i = 1;i < nums.length;i ++){
+             if (nums[i] >= 0){
+                positive_1 = Math.max(positive_1 * nums[i], nums[i]) ;
+                negative_1 = Math.min(negative_1 * nums[i],0);
+            }else {
+                 int temp = positive_1;
+                positive_1 = Math.max(negative_1 * nums[i],0) ;
+                negative_1 = Math.min(temp * nums[i], nums[i]);
+            }
+            ans = Math.max(ans,Math.max(positive_1,negative_1));
+        }
+        return ans;
+    }
+
+}
