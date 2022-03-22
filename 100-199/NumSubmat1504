@@ -1,0 +1,36 @@
+public class NumSubmat {
+
+    public int numSubmat(int[][] mat) {
+
+        if (mat.length == 0){
+            return 0;
+        }
+        int[][] dp = new int[mat.length][mat[0].length];
+        int[] up = new int[mat[0].length];
+        int ans = 0;
+        for (int j = 0;j < mat[0].length; j ++){
+            if (mat[0][j] == 1){
+                dp[0][j] = j - 1 < 1 ? 0 : dp[0][j - 1] + 1;
+            }
+            up[j] = mat[0][j];
+            ans += dp[0][j];
+        }
+
+        for (int i = 1;i < mat.length;i ++){
+            for (int j = 0;j < mat[i].length;j ++){
+                if (mat[i][j] == 1){
+                    up[j] ++;
+                    dp[i][j] = j - 1 < 0 ? 1 : dp[i][j - 1] + 1;
+                    int m  = dp[i][j];
+                    for (int k = 0; k < up[j];k ++){
+                        m = Math.min(dp[i][j - k],m);
+                        ans += m;
+                    }
+                }else {
+                    up[j] = 0;
+                }
+            }
+        }
+        return ans;
+    }
+}
