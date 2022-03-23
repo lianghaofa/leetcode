@@ -1,0 +1,79 @@
+public class Twitter {
+
+    class TweetNode{
+        int tweetId;
+        int time;
+        TweetNode(int tweetId,int time){
+            this.tweetId = tweetId;
+            this.time = time;
+        }
+    }
+
+    int globalTime = 0;
+    HashMap<Integer,List<TweetNode>> getTweetIdsByUserIdMap;
+    HashMap<Integer, HashSet<Integer> > followers;
+
+    public static void main(String[] args) {
+        Twitter twitter = new Twitter();
+        twitter.postTweet(1,5);
+        twitter.postTweet(1,3);
+        twitter.getNewsFeed(1);
+    }
+
+    public Twitter() {
+        getTweetIdsByUserIdMap = new HashMap<>();
+        followers = new HashMap<>();
+    }
+
+    public void postTweet(int userId, int tweetId) {
+        List<TweetNode> list = getTweetIdsByUserIdMap.get(userId);
+        if (list == null){
+            list = new ArrayList<>();
+        }
+        list.add(new TweetNode(tweetId,globalTime ++));
+        getTweetIdsByUserIdMap.put(userId,list);
+        follow(userId,userId);
+    }
+
+    public List<Integer> getNewsFeed(int userId) {
+        HashSet<Integer> set = followers.get(userId);
+        List<Integer> res = new ArrayList<>();
+        PriorityQueue<TweetNode> priorityQueue = new PriorityQueue<>(new Comparator<TweetNode>() {
+            @Override
+            public int compare(TweetNode o1, TweetNode o2) {
+                return (o2.time - o1.time);
+            }
+        });
+        if (set != null){
+            for (Integer s : set){
+                List<TweetNode> list = getTweetIdsByUserIdMap.get(s);
+                if (list != null){
+                    priorityQueue.addAll(list);
+                }
+            }
+            while (!priorityQueue.isEmpty() && res.size() < 10){
+                res.add(priorityQueue.poll().tweetId);
+            }
+        }
+        return res;
+    }
+
+    public void follow(int followerId, int followeeId) {
+        // followerId 关注  followeeId
+        HashSet<Integer> set = followers.get(followerId);
+        if (set == null){
+            set = new HashSet<>();
+        }
+        set.add(followeeId);
+        followers.put(followerId,set);
+    }
+
+    public void unfollow(int followerId, int followeeId) {
+        // followerId 取消 followeeId
+        HashSet<Integer> set = followers.get(followerId);
+        if (set != null){
+            set.remove(followeeId);
+        }
+
+    }
+}
