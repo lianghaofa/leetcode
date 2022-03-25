@@ -1,0 +1,16 @@
+public class kLengthApart {
+
+    public boolean kLengthApart(int[] nums, int k) {
+        int pre = -100001;
+        for (int i = 0;i < nums.length;i ++){
+            if (nums[i] == 1){
+                if (i - pre > k){
+                    pre = i;
+                }else {
+                  return false;
+                }
+            }
+        }
+        return true;
+    }
+}
