@@ -1,0 +1,36 @@
+public class ModifyString {
+
+    public String modifyString(String s) {
+        StringBuilder string = new StringBuilder(s);
+        if (string.charAt(0) == '?'){
+            if (string.length() > 1 ){
+                if (string.charAt(1) == '?'){
+                    string.setCharAt(0,'a');
+                }else {
+                    char c = (char) (((string.charAt(1) - 'a') + 1) % 26 + 'a');
+                    string.setCharAt(0,c);
+                }
+            }else {
+                return "a";
+            }
+        }
+        for (int i = 1;i < string.length() - 1;i ++){
+            if (string.charAt(i) != '?'){
+                continue;
+            }
+            char c = (char) (((string.charAt(i - 1) - 'a') + 1) % 26 + 'a');
+            char right = string.charAt(i + 1);
+            if (right != '?'){
+                if (c == (string.charAt(i + 1))){
+                    c = (char) (((string.charAt(i + 1) - 'a') + 1) % 26 + 'a');
+                }
+            }
+            string.setCharAt(i,c);
+        }
+        if (string.charAt(string.length() - 1) == '?'){
+            char c = (char) (((string.charAt(string.length() - 2) - 'a') + 1) % 26 + 'a');
+            string.setCharAt(string.length() - 1,c);
+        }
+        return string.toString();
+    }
+}
