@@ -1,0 +1,18 @@
+public class AreOccurrencesEqual {
+
+    public boolean areOccurrencesEqual(String s) {
+        int[] set = new int[26];
+        int maxOccur = 0;
+        for (int i = 0;i < s.length();i ++){
+            int index = s.charAt(i) - 'a';
+            set[index] ++;
+            maxOccur = Math.max(maxOccur,set[index]);
+        }
+        for (int i = 0;i < 26;i ++){
+            if (set[i] != 0 && maxOccur != set[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
