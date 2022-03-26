@@ -1,0 +1,23 @@
+public class LongestOnes {
+
+    public static void main(String[] args) {
+        int[] num = new int[]{1,1,1,0,0,0,1,1,1,1};
+        longestOnes(num,0);
+    }
+
+    public static int longestOnes(int[] nums, int k) {
+        int l = -1,r = 0,ans = 0;
+        while (r < nums.length){
+            // always keep k  zero     l ( 0110) r
+            while (r < nums.length && ( k > 0 ||  nums[r] == 1)){
+                k -= nums[r] ^ 1;
+                r ++;
+            }
+            ans = Math.max(ans,r - l - 1);
+            // pop a zero
+            while (l + 1 < nums.length && (nums[l + 1] == 1));
+            k ++;
+        }
+        return ans;
+    }
+}
