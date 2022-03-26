@@ -1,0 +1,47 @@
+public class BstToGst {
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public TreeNode bstToGst(TreeNode root) {
+        TreeNode cur = root;
+        TreeNode mostRight = null;
+        int sum = 0;
+        while (cur != null){
+            mostRight = cur.right;
+            if (mostRight != null){
+                while (mostRight.left != null && mostRight.left != cur){
+                    mostRight = mostRight.left;
+                }
+                if (mostRight.left == cur){
+                    mostRight.left = null;
+                }else {
+                    mostRight.left = cur;
+                    cur = cur.right;
+                    continue;
+                }
+            }
+            sum += cur.val;
+            cur.val = sum;
+            cur = cur.left;
+        }
+            return root;
+    }
+
+}
