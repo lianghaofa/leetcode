@@ -1,0 +1,28 @@
+public class NextGreaterElement {
+
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int[] ans = new int[nums1.length];
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        Deque<Integer> stack = new LinkedList<>();
+        for (int value : nums2) {
+            if (stack.isEmpty()) {
+                stack.push(value);
+            } else {
+                int top = stack.peek();
+                while (value > top) {
+                    hashMap.put(top, value);
+                    stack.pop();
+                    top = stack.isEmpty() ? Integer.MAX_VALUE : stack.peek();
+                }
+                stack.push(value);
+            }
+        }
+        while (!stack.isEmpty()){
+            hashMap.put(stack.pop(),-1);
+        }
+        for (int i = 0;i < nums1.length;i ++){
+            ans[i] = hashMap.get(nums1[i]);
+        }
+        return ans;
+    }
+}
