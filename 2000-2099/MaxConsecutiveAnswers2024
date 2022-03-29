@@ -1,0 +1,38 @@
+public class MaxConsecutiveAnswers {
+
+    public static void main(String[] args) {
+
+    }
+
+    public  int maxConsecutiveAnswers(String answerKey, int k) {
+
+        return Math.max(maxConsecutive(answerKey.toCharArray(),k,'T'),maxConsecutive(answerKey.toCharArray(),k,'F'));
+    }
+
+    private int maxConsecutive(char[] answerKey, int k,char c){
+        int count = 0;
+        int r = 0;
+        int ans = 0;
+        for (int l = -1; l < answerKey.length - 1 && r < answerKey.length; l ++){
+            while (r < answerKey.length){
+                if (answerKey[r] == c){
+                    r ++;
+                }else {
+                    if (count >= k){
+                        break;
+                    }else {
+                        count ++;
+                        r ++;
+                    }
+                }
+            }
+            ans = Math.max(ans,r - l - 1);
+            while (l + 1 < answerKey.length && answerKey[l + 1] == c){
+                l ++;
+            }
+            count --;
+        }
+        return ans;
+    }
+    
+}
