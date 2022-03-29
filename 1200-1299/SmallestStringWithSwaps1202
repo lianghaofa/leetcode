@@ -1,0 +1,95 @@
+public class SmallestStringWithSwaps {
+
+
+    static class Node{
+        int index;
+        char val;
+        Node(int index,char val){
+            this.index = index;
+            this.val = val;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        List<List<Integer>> pairs = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        list.add(3);
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(1);
+        list1.add(2);
+        List<Integer> list2 = new ArrayList<>();
+        list.add(0);
+        list.add(2);
+        pairs.add(list);
+        pairs.add(list1);
+        smallestStringWithSwaps("dcab",pairs);
+
+    }
+
+    public static String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
+        int[] unionArr = new int[s.length()];
+        for (int i = 0;i < s.length(); i ++){
+            unionArr[i] = i;
+        }
+        char[] chars = s.toCharArray();
+        for (List<Integer> list : pairs) {
+            int l = find(unionArr, list.get(0));
+            int r = find(unionArr, list.get(1));
+            unionArr[r] = l;
+        }
+
+        for (int i = 0;i < s.length(); i ++){
+            if (unionArr[i] != i){
+                find(unionArr,i);
+            }
+
+        }
+        // sort
+        HashMap<Integer,List<Node>> hashMap = new HashMap<>();
+        for (int i = 0;i < s.length(); i ++){
+
+
+            List<Node> nodes = hashMap.get(unionArr[i]);
+            if (nodes == null){
+                nodes = new ArrayList<>();
+            }
+            nodes.add(new Node(i,chars[i]));
+            hashMap.put(unionArr[i],nodes);
+        }
+
+        for (List<Node> nodes : hashMap.values()){
+
+            int[] indexArr = new int[nodes.size()];
+            for (int i = 0; i < nodes.size(); i ++){
+                indexArr[i] = nodes.get(i).index;
+            }
+
+
+            nodes.sort(new Comparator<Node>() {
+                @Override
+                public int compare(Node o1, Node o2) {
+                    return o1.val - o2.val;
+                }
+            });
+
+            for (int i = 0; i < nodes.size(); i ++){
+                chars[indexArr[i]] = nodes.get(i).val;
+            }
+        }
+
+        return new String(chars);
+    }
+
+
+    private static int find(int[] unionArr,int index){
+        if (unionArr[index] == index){
+            return index;
+        }
+        unionArr[index] = find(unionArr,unionArr[index]);
+        return unionArr[index];
+    }
+
+
+}
