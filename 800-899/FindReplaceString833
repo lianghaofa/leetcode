@@ -1,0 +1,41 @@
+public class FindReplaceString {
+
+    class Node{
+        int index;
+        String source;
+        String target;
+        Node(int index,String source,String target){
+            this.index = index;
+            this.source = source;
+            this.target = target;
+        }
+    }
+
+    public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
+
+        Node[] nodes = new Node[sources.length];
+        for (int i = 0; i < sources.length; i ++){
+            nodes[i] = new Node(indices[i],sources[i],targets[i]);
+        }
+        Arrays.sort(nodes, (o1, o2) -> o1.index - o2.index);
+
+        StringBuilder str = new StringBuilder(s.substring(0,nodes[0].index));
+        for (int i = 0; i < indices.length; i ++){
+            if (i == indices.length - 1){
+                str.append(findReplaceString(s, nodes[i].index,s.length(), nodes[i].source,nodes[i].target));
+            }else {
+                str.append(findReplaceString(s, nodes[i].index,nodes[i + 1].index, nodes[i].source,nodes[i].target));
+            }
+        }
+        return str.toString();
+    }
+
+    public String findReplaceString(String s, int start,int end,String source ,String target) {
+        for (int i = start, j = 0; i < start + source.length(); i ++,j ++){
+            if (i >= s.length() || s.charAt(i) != source.charAt(j)){
+                return s.substring(start,end);
+            }
+        }
+        return target + s.substring(start + source.length(),end);
+    }
+}
