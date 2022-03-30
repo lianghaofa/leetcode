@@ -1,0 +1,30 @@
+public class SelfDividingNumbers {
+
+
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = left; i <= right; i ++){
+            if (isSelfDividingNumbers(i)){
+                list.add(left);
+            }
+        }
+        return list;
+
+    }
+
+    private boolean isSelfDividingNumbers(int num){
+        if (num % 10 == 0){
+            return false;
+        }
+        int temp = num;
+        int c;
+        while (temp > 0){
+            c = temp % 10;
+            if (c == 0 || num % c != 0){
+                return false;
+            }
+            temp /= 10;
+        }
+        return true;
+    }
+}
