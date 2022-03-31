@@ -1,0 +1,56 @@
+public class RandomizedSet {
+
+
+    public static void main(String[] args) {
+        RandomizedSet randomizedSet = new RandomizedSet();
+//        randomizedSet.insert(1);
+//        randomizedSet.remove(2);
+//        randomizedSet.insert(2);
+//        randomizedSet.getRandom();
+//        randomizedSet.remove(1);
+//        randomizedSet.insert(2);
+//        randomizedSet.getRandom();
+        randomizedSet.insert(0);
+        randomizedSet.insert(1);
+        randomizedSet.remove(0);
+        randomizedSet.insert(2);
+        randomizedSet.remove(1);
+        randomizedSet.getRandom();
+
+    }
+
+    HashMap<Integer,Integer> valMap;
+    List<Integer> indexMap;
+    public RandomizedSet() {
+        valMap = new HashMap<>();
+        indexMap = new ArrayList<>();
+    }
+
+    public boolean insert(int val) {
+        if (valMap.get(val) == null){
+
+            valMap.put(val, indexMap.size());
+            indexMap.add(val);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean remove(int val) {
+        if (valMap.get(val) == null){
+            return false;
+        }
+        Integer index = valMap.get(val);
+        Integer lastVal = indexMap.get(indexMap.size() - 1);
+        indexMap.set(index,lastVal);
+        indexMap.remove(indexMap.size() - 1);
+        valMap.put(lastVal,index);
+        valMap.remove(val);
+        return true;
+    }
+
+    public int getRandom() {
+        int index = (int) (Math.random() * valMap.size());
+        return indexMap.get(index);
+    }
+}
