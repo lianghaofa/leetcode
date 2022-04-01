@@ -1,0 +1,36 @@
+public class Compress {
+
+
+    public int compress(char[] chars) {
+
+        int l = -1;
+        int r = 0;
+        int ans = 0;
+        while (r < chars.length){
+            while (r + 1 < chars.length && chars[r] == chars[r + 1]){
+                r ++;
+            }
+            if (r - l == 1){
+                chars[ans ++] = chars[r];
+            }else{
+                chars[ans ++] = chars[r];
+                int start = ans;
+                int len = r - l ;
+                while (len > 0){
+                    int c = len % 10;
+                    chars[ans ++] = (char)(c + '0');
+                    len /= 10;
+                }
+                int end = ans - 1;
+                while (start < end){
+                    char temp = chars[start];
+                    chars[start ++] = chars[end];
+                    chars[end ++]= temp;
+                }
+            }
+            l = r;
+            r ++;
+        }
+        return ans;
+    }
+}
