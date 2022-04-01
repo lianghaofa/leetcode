@@ -1,0 +1,43 @@
+{
+
+
+    public static void main(String[] args) {
+        int[] arr = new int[]{4,-2,2,-4};
+        canReorderDoubled(arr);
+    }
+
+    public static boolean canReorderDoubled(int[] arr) {
+        TreeMap<Integer,Integer> treeMap = new TreeMap<>();
+        for (int value : arr) {
+            treeMap.merge(value, 1, Integer::sum);
+        }
+
+        while (treeMap.size() > 0){
+            Integer firstKey = treeMap.firstEntry().getKey();
+            Integer doubleKey = firstKey * 2;
+            if (firstKey < 0){
+                if (firstKey % 2 != 0){
+                    return false;
+                }
+                doubleKey = firstKey / 2;
+            }
+            Integer firstVal = treeMap.firstEntry().getValue();
+            Integer doubleVal = treeMap.get(doubleKey);
+            if (doubleVal == null){
+                return false;
+            }
+            if (firstVal == 1){
+                treeMap.remove(firstKey);
+            }else {
+                treeMap.put(firstKey,firstVal - 1);
+            }
+
+            if (doubleVal == 1){
+                treeMap.remove(doubleKey);
+            }else {
+                treeMap.put(doubleKey,doubleVal - 1);
+            }
+        }
+        return true;
+    }
+}
