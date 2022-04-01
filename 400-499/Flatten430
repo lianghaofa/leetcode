@@ -1,0 +1,42 @@
+public class Flatten {
+
+    class Node {
+        public int val;
+        public Node prev;
+        public Node next;
+        public Node child;
+    };
+
+
+    public Node flatten(Node head) {
+        flatten1(head);
+        return head;
+    }
+
+    public Node flatten1(Node head) {
+        Node cur = head;
+        Node pre = cur;
+        while (cur != null){
+            if (cur.child == null){
+                pre = cur;
+                cur = cur.next;
+            }else {
+                Node next = cur.next;
+                Node nextFirst =  cur.child;
+                Node nextLast = flatten1(cur.child);
+                cur.child = null;
+                cur.next = nextFirst;
+                nextFirst.prev = cur;
+                pre = cur;
+                nextLast.next = next;
+                if (next != null){
+                    next.prev = nextLast;
+                }else {
+                    pre = nextLast;
+                }
+                cur = next;
+            }
+        }
+        return pre;
+    }
+}
