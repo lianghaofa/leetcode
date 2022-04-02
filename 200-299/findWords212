@@ -1,0 +1,81 @@
+public class FindWords {
+
+    class Node{
+        Node[] children = new Node[26];
+        int count = 0;
+        boolean end;
+        Node(){
+
+        }
+
+    }
+    Node head = new Node();
+    public List<String> findWords(char[][] board, String[] words) {
+
+        for (String word : words) {
+            Node node = head;
+            for (int j = 0; j < word.length(); j++) {
+                int cur = word.charAt(j) - 'a';
+                if (node.children[cur] == null) {
+                    node.children[cur] = new Node();
+                }
+                node.children[cur].count++;
+                node = node.children[cur];
+            }
+            node.end = true;
+        }
+
+        List<String> list = new ArrayList<>();
+        boolean[][] finds = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i ++){
+            for (int j = 0; j < board[i].length; j ++){
+                findWords(board, finds,i, j, head, "",  list);
+            }
+        }
+        return list;
+    }
+
+
+    public void findWords(char[][] board,boolean[][] finds, int row, int col, Node node, String word, List<String> ans) {
+        if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || node == null){
+            return;
+        }
+
+        int cur = board[row][col] - 'a';
+        if (node.children[cur] != null && !finds[row][col]){
+            finds[row][col] = true;
+            word = word + board[row][col];
+            if (node.children[cur].end){
+                ans.add(word);
+                node.children[cur].end = false;
+                // back track
+                backTrack(word);
+            }
+            //  up
+            findWords(board, finds,row - 1, col, node.children[cur], word,  ans);
+            // right
+            findWords(board, finds, row , col + 1, node.children[cur], word,  ans);
+            // down
+            findWords(board, finds, row + 1, col, node.children[cur], word,  ans);
+            // left
+            findWords(board, finds, row , col - 1, node.children[cur], word,  ans);
+            finds[row][col] = false;
+        }
+
+    }
+
+    public void backTrack(String word) {
+        Node node = head;
+        for (int i = 0; i < word.length(); i ++){
+            int cur = word.charAt(i) - 'a';
+            if (node.children[cur].count == 1){
+                node.children[cur] = null;
+                return;
+            }else {
+                node.children[cur].count --;
+            }
+            node = node.children[cur];
+        }
+    }
+
+}
