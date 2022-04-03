@@ -1,0 +1,25 @@
+public class NextGreatestLetter {
+
+    public static void main(String[] args) {
+        nextGreatestLetter(new char[]{'c','f','j'}, 'g');
+    }
+
+    public static char nextGreatestLetter(char[] letters, char target) {
+        int l = 0, r = letters.length - 1, ans = 0;
+        while (l <= r){
+            int mid = l + (r - l >> 1);
+            if (letters[mid] == target){
+                l = mid + 1;
+                ans = l;
+            } else if (target < letters[mid]){
+                ans = mid;
+                r = mid - 1;
+            }else {
+                // left bounder maybe wrong. l == r
+                ans = Math.max(r,mid + 1);
+                l = mid + 1;
+            }
+        }
+        return ans >= letters.length ? letters[0] : letters[ans];
+    }
+}
