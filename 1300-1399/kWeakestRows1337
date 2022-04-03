@@ -1,0 +1,56 @@
+public class KWeakestRows {
+
+
+    static class Node{
+        int index;
+        int count;
+        Node(int index, int count){
+            this.index = index;
+            this.count = count;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] mat = new int[5][];
+        mat[0] = new int[]{1,1,0,0,0};
+        mat[1] = new int[]{1,1,1,1,0};
+        mat[2] = new int[]{1,0,0,0,0};
+        mat[3] = new int[]{1,1,0,0,0};
+        mat[4] = new int[]{1,1,1,1,1};
+        kWeakestRows(mat, 3);
+    }
+
+    public static int[] kWeakestRows(int[][] mat, int k) {
+        int[] res = new int[k];
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>((o1, o2) -> {
+            if (o1.count == o2.count){
+                return o1.index - o2.index;
+            }
+            return o1.count - o2.count;
+        });
+        for (int i = 0; i < mat.length; i ++){
+            priorityQueue.add(new Node(i, findZeroIndex(mat[i])));
+        }
+        int i  = 0;
+        while (i < k && !priorityQueue.isEmpty()){
+            res[i ++ ] = priorityQueue.poll().index;
+        }
+        return res;
+    }
+
+    private static int findZeroIndex(int[] nums){
+        int l = 0;
+        int r = nums.length - 1;
+        int ans = -1;
+        while (l <= r){
+            int mid = l + (r - l >> 1);
+            if (nums[mid] == 1){
+                ans = mid;
+                l = mid + 1;
+            }else {
+                r = mid - 1;
+            }
+        }
+        return ans;
+    }
+}
