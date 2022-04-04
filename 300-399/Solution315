@@ -1,0 +1,60 @@
+class Solution {
+    static class Node{
+        int index;
+        int val;
+        Node(int index, int val){
+            this.index = index;
+            this.val = val;
+        }
+    }
+
+    
+    static int[] res;
+    static List<Integer> list;
+    public static List<Integer> countSmaller(int[] nums) {
+       
+        res = new int[nums.length];
+        Node[] nodes = new Node[nums.length];
+        for (int i = 0; i < nums.length; i ++){
+            nodes[i] = new Node(i, nums[i]);
+        }
+        count(nodes, 0, nums.length - 1);
+        list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i ++){
+            list.add(res[i]);
+        }
+        
+        return list;
+    }
+
+
+    public static void count(Node[] nodes, int left, int right) {
+        if (left == right){
+            return;
+        }
+        int mid = left + (right - left >> 1);
+        count(nodes, mid + 1, right);
+        count(nodes, left, mid);
+        Node[] temp = new Node[right - left + 1];
+        int m = mid;
+        int r = right;
+        int index = temp.length - 1;
+        while (m >= left && r >= mid + 1){
+            if (nodes[m].val > nodes[r].val){
+                temp[index --] = nodes[r --];
+            }else {
+                res[nodes[m].index] += (temp.length - 1 - index - mid + m);
+                temp[index --] = nodes[m --];
+            }
+        }
+        while (m >= left){
+            res[nodes[m].index] += (temp.length - 1 - index - mid + m);
+            temp[index --] = nodes[m --];
+        }
+        while (r >= mid + 1){
+            temp[index --] = nodes[r --];
+        }
+        // copy temp to nodes
+        System.arraycopy(temp, 0, nodes, left, temp.length);
+    }
+}
