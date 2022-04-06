@@ -1,0 +1,107 @@
+public class HighestRankedKItems {
+
+
+    public static void main(String[] args) {
+        int[][] grid = new int[3][];
+        grid[0]= new int[]{1,2,0,1};
+        grid[1]= new int[]{1,3,0,1};
+        grid[2]= new int[]{0,2,5,1};
+        int[] pricing = new int[]{2,5};
+        int[] start = new int[]{0,0};
+
+//        int[][] grid = new int[1][];
+//        grid[0]= new int[]{0,2,0};
+//
+//        int[] pricing = new int[]{2,2};
+//        int[] start = new int[]{0,1};
+
+        highestRankedKItems(grid, pricing, start, 3);
+    }
+
+    static class Node{
+        int row;
+        int col;
+        int step;
+        int price;
+        Node(int row, int col, int step, int price){
+            this.row = row;
+            this.col = col;
+            this.step = step;
+            this.price = price;
+        }
+    }
+
+    public static List<List<Integer>> highestRankedKItems(int[][] grid, int[] pricing, int[] start, int k) {
+        List<List<Integer>> listList = new ArrayList<>();
+        if (grid.length == 0){
+            return listList;
+        }
+        List<Node> list = new ArrayList<>();
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
+        Queue<Node> queue = new LinkedList<>();
+        Node n1 = new Node(start[0], start[1], 0, grid[start[0]][start[1]]);
+        queue.add(n1);
+        list.add(n1);
+        visited[n1.row][n1.col] = true;
+        while (!queue.isEmpty()){
+            Node node = queue.poll();
+            // up
+            if (node.row - 1 >= 0 && !visited[node.row - 1][node.col] && grid[node.row - 1][node.col] != 0){
+                Node n = new Node(node.row - 1, node.col, node.step + 1, grid[node.row - 1][node.col]);
+                queue.add(n);
+                list.add(n);
+                visited[node.row - 1][node.col] = true;
+            }
+            // right
+            if (node.col + 1  < grid[node.row].length  && !visited[node.row][node.col + 1] && grid[node.row][node.col + 1] != 0){
+                Node n = new Node(node.row , node.col + 1, node.step + 1, grid[node.row][node.col + 1]);
+                queue.add(n);
+                list.add(n);
+                visited[node.row][node.col + 1] = true;
+            }
+            // left
+            if (node.col - 1  >= 0  && !visited[node.row][node.col - 1] && grid[node.row][node.col - 1] != 0){
+                Node n = new Node(node.row , node.col - 1, node.step + 1, grid[node.row][node.col - 1]);
+                queue.add(n);
+                list.add(n);
+                visited[node.row][node.col - 1] = true;
+            }
+            // down
+            if (node.row + 1 <  grid.length && !visited[node.row + 1][node.col] && grid[node.row + 1][node.col] != 0){
+                Node n = new Node(node.row + 1, node.col, node.step + 1, grid[node.row + 1][node.col]);
+                queue.add(n);
+                list.add(n);
+                visited[node.row + 1][node.col] = true;
+            }
+        }
+
+        Collections.sort(list, new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                if (o1.step != o2.step){
+                    return  o1.step - o2.step;
+                }
+                if (o1.price != o2.price){
+                    return o1.price - o2.price;
+                }
+                if (o1.row != o2.row){
+                    return o1.row - o2.row;
+                }
+                return o1.col - o2.col;
+            }
+        });
+        for (int i = 0;i < k && i < list.size(); i ++){
+            Node node = list.get(i);
+            if (node.price == 1  || node.price < pricing[0] || node.price > pricing[1]){
+                k ++;
+                continue;
+            }
+            List<Integer> list1 = new ArrayList<>();
+            list1.add(node.row);
+            list1.add(node.col);
+            listList.add(list1);
+        }
+        return listList;
+    }
+
+}
