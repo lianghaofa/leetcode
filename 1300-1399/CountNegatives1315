@@ -1,0 +1,21 @@
+public class CountNegatives {
+
+    public int countNegatives(int[][] grid) {
+        if (grid.length == 0){
+            return 0;
+        }
+        int ans = 0, row = 0, col = grid[row].length - 1;
+        while (row < grid.length &&  col >= 0){
+            if (grid[row][col] >= 0){
+                ans += grid[row].length - 1 - col;
+                row ++;
+            }else {
+                col --;
+            }
+        }
+        if (col < 0){
+            ans += grid[row].length * (grid.length - row);
+        }
+        return ans;
+    }
+}
