@@ -1,0 +1,22 @@
+public class IsPalindrome {
+    public static void main(String[] args) {
+        isPalindrome("0P");
+    }
+
+    public static boolean isPalindrome(String s) {
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r){
+            while (l < r && !Character.isLetter(s.charAt(l)) && !Character.isDigit(s.charAt(l))){
+                l ++;
+            }
+            while (l < r && !Character.isLetter(s.charAt(r)) && !Character.isDigit(s.charAt(r))){
+                r --;
+            }
+            if (l < r && Character.toLowerCase(s.charAt(l ++)) != Character.toLowerCase(s.charAt(r --))){
+                return false;
+            }
+        }
+        return true;
+    }
+}
