@@ -1,0 +1,32 @@
+public class FindDuplicates {
+
+    public static void main(String[] args) {
+        findDuplicates(new int[]{4,3,2,7,8,2,3,1});
+    }
+
+    public static List<Integer> findDuplicates(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        if (nums.length <= 1){
+            return ans;
+        }
+        for (int i = 0; i < nums.length; i ++){
+            nums[i] --;
+        }
+        int n = nums.length;
+        for (int i = 0; i < nums.length; i ++){
+            int index = nums[i] % n;
+            nums[index] += n;
+        }
+        for (int i = 0; i < nums.length; i ++){
+            if (nums[i] >= 2 * n){
+                nums[i] -= 2 * n;
+                ans.add(i);
+            }else if (nums[i] > n){
+                nums[i] -=  n;
+            }
+            nums[i] ++;
+            System.out.println(nums[i]);
+        }
+        return ans;
+    }
+}
