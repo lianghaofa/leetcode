@@ -1,0 +1,15 @@
+public class UniqueMorseRepresentations {
+
+    public int uniqueMorseRepresentations(String[] words) {
+        String[] map = new String[]{".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        Set<String> set = new HashSet<>();
+        for (String word : words) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < word.length(); j++) {
+                stringBuilder.append(map[word.charAt(j) - 'a']);
+            }
+            set.add(stringBuilder.toString());
+        }
+        return set.size();
+    }
+}
