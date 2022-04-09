@@ -1,0 +1,26 @@
+public class CommonChars {
+
+    public List<String> commonChars(String[] words) {
+        int[] ans0 = new int[26];
+        for (int j = 0; j < words[0].length(); j ++){
+            ans0[words[0].charAt(j) - 'a'] ++;
+        }
+        for (int i = 1; i < words.length; i ++){
+            int[] ans1 = new int[26];
+            for (int j = 0; j < words[i].length(); j ++){
+                ans1[words[i].charAt(j) - 'a'] ++;
+            }
+            for (int j = 0; j < 26; j ++){
+                ans0[j] = Math.min(ans1[j], ans0[j]);
+            }
+        }
+        List<String> ans = new ArrayList<>();
+        for (int i = 0; i < 26; i ++){
+            for (int j = 0; j < ans0[i]; j ++){
+                char c = (char) ('a' + i);
+                ans.add(String.valueOf(c));
+            }
+        }
+        return ans;
+    }
+}
