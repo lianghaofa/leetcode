@@ -1,0 +1,24 @@
+public class SortArrayByParity {
+    
+    public int[] sortArrayByParity(int[] nums) {
+        int l = -1;
+        int left = 0;
+        int r = nums.length;
+        while (left < r){
+            if (nums[left] % 2 == 0){
+                l ++;
+                left ++;
+            }else {
+                swap(nums, r - 1,left);
+                r --;
+            }
+        }
+        return nums;
+    }
+
+    private void swap(int[] nums, int i, int left) {
+        int temp = nums[i];
+        nums[i] = nums[left];
+        nums[left] = temp;
+    }
+}
