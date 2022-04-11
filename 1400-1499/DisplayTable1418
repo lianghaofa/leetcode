@@ -1,0 +1,45 @@
+public List<List<String>> displayTable(List<List<String>> orders) {
+
+        List<List<String>> ans = new ArrayList<>();
+        //  food  table,number
+        Set<String> foods =  new TreeSet<>();
+        Map<Integer,Map<String,Integer>> tableMap = new TreeMap<>();
+        for (List<String> list : orders){
+            int table = Integer.parseInt(list.get(1));
+            String food = list.get(2);
+            foods.add(food);
+            Map<String,Integer> tableCorrespondingFood = tableMap.get(table);
+            if (tableCorrespondingFood == null){
+                tableCorrespondingFood = new HashMap<>();
+                tableCorrespondingFood.put(food,1);
+            }else {
+                Integer val = tableCorrespondingFood.get(food);
+                if (val == null){
+                    val = 0;
+                }
+                tableCorrespondingFood.put(food,val + 1);
+            }
+            tableMap.put(table, tableCorrespondingFood);
+        }
+        List<String> title = new ArrayList<>();
+        title.add("Table");
+        for (String str : foods){
+            title.add(str);
+        }
+        ans.add(title);
+        for (Integer k  : tableMap.keySet()){
+            List<String> row = new ArrayList<>();
+            Map<String,Integer> tableCorrespondingFood = tableMap.get(k);
+            row.add(String.valueOf(row));
+            for (String str : foods){
+                Integer number = tableCorrespondingFood.get(str);
+                if (number != null){
+                    row.add(String.valueOf(number));
+                }else {
+                    row.add("0");
+                }
+            }
+            ans.add(row);
+        }
+        return ans;
+    }
