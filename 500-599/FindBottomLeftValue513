@@ -1,0 +1,50 @@
+public class FindBottomLeftValue {
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public int findBottomLeftValue(TreeNode root) {
+        if (root == null){
+            return -1;
+        }
+        // record the first Node
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int ans = -1;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            TreeNode treeNode = queue.poll();
+            ans = treeNode.val;
+            pushQueue(queue, treeNode);
+            for (int i = 1; i < size; i ++){
+                pushQueue(queue, queue.poll());
+            }
+        }
+        return ans;
+    }
+
+    private void pushQueue(Queue<TreeNode> queue,TreeNode treeNode){
+        if (treeNode.left != null){
+            queue.add(treeNode.left);
+        }
+        if (treeNode.right != null){
+            queue.add(treeNode.right);
+        }
+    }
+}
