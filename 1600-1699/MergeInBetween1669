@@ -1,0 +1,47 @@
+public class MergeInBetween {
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+
+    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        ListNode cur = list1;
+        ListNode aPre = list1;
+        ListNode bNext = list1;
+        int a1 = a;
+        while (a1 > 0 && cur != null){
+            aPre = cur;
+            cur = cur.next;
+            a1 --;
+        }
+        b -= a;
+        while (b >= 0 && cur != null){
+            cur = cur.next;
+            bNext = cur;
+            b --;
+        }
+        aPre.next = list2;
+        ListNode listLast = list2;
+        cur = list2;
+        while (cur != null){
+            listLast = cur;
+            cur = cur.next;
+        }
+        listLast.next = bNext;
+        return a == 0 ? list2 : list1;
+    }
+}
