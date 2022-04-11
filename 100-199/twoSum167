@@ -1,0 +1,43 @@
+public class TwoSum {
+
+    public int[] twoSum1(int[] nums, int target) {
+        Map<Integer,Integer> Set = new HashMap<>();
+        for (int i = 0;i < nums.length; i ++){
+            Set.put(nums[i],i);
+        }
+        for (int i = 0;i < nums.length; i ++){
+            Integer r = Set.get(target - nums[i]);
+            if (r != null && i != r){
+                return new int[]{Math.min(i,r),Math.max(r,i)};
+            }
+        }
+        return new int[]{-1,-1};
+    }
+
+
+
+    public int[] twoSum(int[] numbers, int target) {
+        int[] ans = new int[]{-1,-1};
+        int l = 0;
+        int r = numbers.length - 1;
+        while (l < r){
+            int sum = numbers[l] + numbers[r];
+            if (sum == target){
+                return new int[]{l + 1, r + 1};
+            }else if (sum > target){
+                r --;
+                while (r - 1 > l && numbers[r - 1] == numbers[r]){
+                    r --;
+                }
+
+            }else {
+                while (l + 1 < r && numbers[l + 1] == numbers[l]){
+                    l ++;
+                }
+                l ++;
+            }
+        }
+        return ans;
+    }
+
+}
