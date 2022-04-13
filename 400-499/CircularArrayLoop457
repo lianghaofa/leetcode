@@ -1,0 +1,53 @@
+public class CircularArrayLoop {
+
+    public static void main(String[] args) {
+        circularArrayLoop(new int[]{-1,2});
+    }
+
+    public static boolean circularArrayLoop(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; i ++){
+            if (nums[i] == 0) {
+                continue;
+            }
+            int next = getNext(i,nums[i],n);
+            int slow = next;
+            int fast = getNext(next,nums[next],n);
+            int fastNext = getNext(fast,nums[fast],n);
+            int fastNextNext = getNext(fastNext,nums[fastNext],n);
+            while ((nums[fast] * nums[fastNext] > 0 &&  nums[fastNext] * nums[fastNextNext] > 0)){
+                if (slow == fast ){
+                    // check the length of a circle
+                    if (slow != getNext(slow, nums[slow],n)) {
+                        return true;
+                    }else {
+                        break;
+                    }
+                }
+                slow = getNext(slow,nums[slow],n);
+                fastNext = getNext(fast,nums[fast],n);
+                fastNextNext = getNext(fastNext,nums[fastNext],n);
+                fast = fastNextNext;
+            }
+            int add = i;
+            while (nums[add] * nums[getNext(add,nums[add], n)] > 0) {
+                int tmp = add;
+                add = getNext(add,nums[add], n);
+                nums[tmp] = 0;
+            }
+        }
+        return false;
+    }
+
+    private static int getNext(int cur, int num, int length) {
+        if (num > 0){
+            return (cur + num) % length;
+        }
+        num = num  % length;
+        if (cur + num >= 0){
+            return cur + num;
+        }
+        return (length + (cur + num));
+    }
+
+}
