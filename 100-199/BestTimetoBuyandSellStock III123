@@ -1,0 +1,54 @@
+public class MaxProfit {
+
+    public int maxProfit(int[] prices) {
+
+        // record when we can get the max profit only trade one time
+        int sellOnceMax = 0;
+        // record the one time max profit and buy stock
+        int sellOnceAndBuy = -prices[0];
+        int min = prices[0];
+        int ans = 0;
+        for (int i = 1;i < prices.length; i ++){
+            //
+            ans = Math.max(prices[i] + sellOnceAndBuy, ans);
+
+            // sellOnceMax - prices[i], prepare
+            sellOnceAndBuy = Math.max(sellOnceMax - prices[i], sellOnceAndBuy);
+
+            //  record when we can get the max profit only trade one time.  max - min , the index of max must be bigger than the index of min.
+            sellOnceMax = Math.max(prices[i] - min, sellOnceMax);
+            min = Math.min(min, prices[i]);
+        }
+        return Math.max(sellOnceMax, ans);
+    }
+    
+    public static int maxProfit1(int k, int[] prices) {
+        if (k == 0 || prices.length == 0){
+            return 0;
+        }
+        int[][] buySellTable = new int[prices.length][prices.length];
+        for (int i = 0; i < prices.length; i ++){
+            for (int j = i + 1; j < prices.length; j ++){
+                buySellTable[i][j] = prices[j] - prices[i];
+            }
+        }
+        int[][] dp = new int[k + 1][prices.length];
+        int min = prices[0];
+        for (int i = 1; i < prices.length; i ++){
+            dp[1][i] = Math.max(prices[i] - min, dp[1][i - 1]);
+            min = Math.min(min, prices[i]);
+        }
+        for (int i = 2; i <= k; i ++){
+            for (int j = 1; j < prices.length; j ++){
+                int m1 = buySellTable[0][j];
+                for (int m = 1; m <= j; m ++){
+                    m1 = Math.max(m1, dp[i - 1][m - 1] + buySellTable[m][j]);
+                }
+                m1 = Math.max(dp[i - 1][j], m1);
+                dp[i][j] = Math.max(m1,dp[i][j - 1]);
+            }
+        }
+        return dp[k][prices.length - 1];
+    }
+
+}
