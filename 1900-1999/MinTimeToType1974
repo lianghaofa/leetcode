@@ -1,0 +1,13 @@
+public class MinTimeToType {
+
+    public int minTimeToType(String word) {
+        int pre = 0;
+        int ans = 0;
+        for (int i = 0; i < word.length(); i ++){
+            int position = word.charAt(i) - 'a';
+            ans += Math.min(Math.abs(pre - position), 26 - Math.abs(pre - position)) + 1;
+            pre = position;
+        }
+        return ans;
+    }
+}
