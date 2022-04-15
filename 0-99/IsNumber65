@@ -1,0 +1,80 @@
+public class IsNumber {
+
+    public static void main(String[] args) {
+        //isNumber("0089");
+        //isNumber("+3.14");
+        //isNumber(".1");
+        //isNumber("0.");
+        //isNumber("+-.");
+        isNumber("0-");
+    }
+
+    public static boolean isNumber(String s) {
+
+        int finde = s.indexOf("e");
+        int findE = s.indexOf("E");
+        if (finde >= 0 || findE >= 0){
+            int eIndex = finde >= 0 ? finde : findE;
+            return  (isDecimals(s.substring(0, eIndex)) || isInteger(s.substring(0, eIndex))) && isInteger(s.substring(eIndex + 1, s.length()));
+        }
+        //  .
+        String res = s.substring(0, s.length());
+        return isDecimals( res) || isInteger( res);
+    }
+
+
+    private static boolean isInteger(String str){
+        if (str.length() == 0){
+            return false;
+        }
+        int cur = 0;
+        if (str.charAt(cur) == '+' || str.charAt(cur) == '-'){
+            cur ++;
+            if (cur == str.length() || (str.charAt(cur) == '+' || str.charAt(cur) == '-')){
+                return false;
+            }
+        }
+        // delete pre zero
+        while (cur < str.length() && str.charAt(cur) == '0'){
+            if (cur == str.length() - 1){
+                return true;
+            }
+            cur ++;
+        }
+        for (; cur < str.length(); cur ++){
+            if (str.charAt(cur) < '0' || str.charAt(cur) > '9'){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean isDecimals(String str){
+        if (str.length() == 0){
+            return false;
+        }
+        int cur = 0;
+        if (str.charAt(cur) == '+' || str.charAt(cur) == '-'){
+            cur ++;
+            if (cur == str.length() || (str.charAt(cur) == '+' || str.charAt(cur) == '-')){
+                return false;
+            }
+        }
+        int findDot = str.indexOf(".");
+        if (findDot == -1){
+            return false;
+        }
+        String res0 = str.substring(cur, findDot);
+        String res1 = str.substring(findDot + 1, str.length());
+        // 只有一个 .
+        if (cur == str.length() - 1){
+            return false;
+        }
+        if (res1.length() > 0 && (res1.charAt(0) == '+' || res1.charAt(1) == '-')){
+            return false;
+        }
+        return (isInteger(res0) || res0.equals("")) && (isInteger(res1) || res1.equals(""));
+    }
+
+
+}
