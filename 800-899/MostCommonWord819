@@ -1,0 +1,32 @@
+public class MostCommonWord {
+
+    public static void main(String[] args) {
+        mostCommonWord("Bob. hIt, baLl", new String[]{
+                "bob", "hit"});
+    }
+
+    public static String mostCommonWord(String paragraph, String[] banned) {
+        HashSet<String> bannedSet = new HashSet<>(Arrays.asList(banned));
+        HashMap<String,Integer> wordMap = new HashMap<>();
+        StringBuilder word = new StringBuilder();
+        int ans = 0;
+        String res = "";
+        paragraph = paragraph.toLowerCase().trim();
+        for (int i = 0; i <= paragraph.length(); i ++){
+            if (i < paragraph.length() && Character.isLetter(paragraph.charAt(i))){
+                word.append(paragraph.charAt(i));
+            }else {
+                if (!bannedSet.contains(word.toString()) && !"".equals(word.toString())){
+                    int size = wordMap.getOrDefault(word.toString(), 0) + 1;
+                    wordMap.put(word.toString(), size);
+                    if (size > ans){
+                        res = word.toString();
+                        ans = size;
+                    }
+                }
+                word.setLength(0);
+            }
+        }
+        return res;
+    }
+}
