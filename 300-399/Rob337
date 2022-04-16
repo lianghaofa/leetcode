@@ -1,0 +1,22 @@
+public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    public int rob(TreeNode root) {
+        int[] res = robMax(root);
+        return Math.max(res[0], res[1]);
+    }
+
+    public int[] robMax(TreeNode root) {
+        if (root == null){
+            return new int[]{0,0};
+        }
+        int[] left = robMax(root.left);
+        int[] right = robMax(root.right);
+        // rob : rob1 = left[0] + right[0]
+        // notRob : rob0 = left[0] + right[0], left[1] + right[1], left[0] + right[1],left[1] + right[0]
+        return new int[]{Math.max(Math.max(left[0] + right[0],left[1] + right[1]),Math.max(left[0] + right[1],left[1] + right[0])),left[0] + right[0] + root.val};
+    }
