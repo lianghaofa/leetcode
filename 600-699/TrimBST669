@@ -1,0 +1,31 @@
+public class TrimBST {
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null){
+            return null;
+        }
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right,low, high);
+        // 核心思路
+        // 1.当前节点值在范围内,返回当前节点
+        // 2.当前节点值不在范围内,返回左右节点
+        // 2.1 当前节点小于 low,   left <= cur <= right    左侧不可能， 只能返回右
+        // 2.2 当前节点大于 high,  left <= cur <= right    右侧不可能， 只能返回左
+        if (root.val >= low && root.val <= high ){
+            return root;
+        }else if (root.val < low){
+            return root.right;
+        }else {
+            return root.left;
+        }
+    }
+
+}
