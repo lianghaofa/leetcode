@@ -1,0 +1,63 @@
+public class Calculate {
+
+    int index = 0;
+    public int calculate(String s) {
+        index = 0;
+        boolean pos = true;
+        int cur =  0;
+        int ans = 0;
+        while (index < s.length()) {
+            if (s.charAt(index) == '('){
+                index ++;
+                int r = subCalculate(s);
+                ans += pos ? r : -r;
+            } else if (s.charAt(index) == '-' || s.charAt(index) == '+' ){
+                ans += pos ? cur : -cur;
+                pos = s.charAt(index) == '+';
+                cur = 0;
+                index ++;
+            }else if (s.charAt(index) == ' '){
+                index ++;
+            }else {
+                cur = cur * 10 + (int) (s.charAt(index) - '0');
+                index ++;
+            }
+        }
+        ans += pos ? cur : -cur;;
+        return ans;
+    }
+
+    public int subCalculate(String s) {
+        if (s.charAt(index) == ')'){
+            index ++;
+            return 0;
+        }
+        int cur =  0;
+        int ans = 0;
+        boolean pos = true;
+        while (index < s.length()) {
+            if (s.charAt(index) == '('){
+                index ++;
+                int r = subCalculate(s);
+                ans += pos ? r : -r;
+            } else if (s.charAt(index) == ')'){
+                index ++;
+                ans += pos ? cur : -cur;
+
+                return ans;
+            }else if (s.charAt(index) == '-' || s.charAt(index) == '+' ){
+                ans += pos ? cur : -cur;
+                pos = s.charAt(index) == '+';
+                cur = 0;
+                index ++;
+            }else if (s.charAt(index) == ' '){
+                index ++;
+            }else {
+                cur = cur * 10 + (int) (s.charAt(index) - '0');
+                index ++;
+            }
+        }
+        return ans;
+    }
+
+}
