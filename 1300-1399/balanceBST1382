@@ -1,0 +1,56 @@
+public class BalanceBST {
+
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    public TreeNode balanceBST(TreeNode root) {
+
+        List<TreeNode> list = new ArrayList<>();
+        TreeNode cur = root;
+        TreeNode mostRight;
+        while (cur != null){
+            mostRight = cur.left;
+            if (mostRight != null){
+                while (mostRight.right != null && mostRight.right != cur){
+                    mostRight = mostRight.right;
+                }
+                if (mostRight.right == cur){
+                    mostRight.right = null;
+                }else {
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                }
+            }
+            list.add(cur);
+            cur = cur.right;
+        }
+        System.out.println(list.size());
+        return balanceBST(list, 0,  list.size() - 1);
+
+    }
+
+    public TreeNode balanceBST(List<TreeNode> list, int l, int r) {
+        if (l < r){
+            return null;
+        }
+        if (l == r){
+            TreeNode treeNode = list.get(l);
+            treeNode.left = null;
+            treeNode.right = null;
+            return treeNode;
+        }
+        int mid = l + (r - l >> 1);
+        TreeNode treeNode = list.get(mid);
+        treeNode.left = balanceBST(list, l, mid - 1);
+        treeNode.right =balanceBST(list, mid + 1, r);
+        return treeNode;
+    }
+
+
+}
