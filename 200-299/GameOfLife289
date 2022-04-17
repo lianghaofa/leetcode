@@ -1,0 +1,49 @@
+public class GameOfLife {
+
+
+    public void gameOfLife(int[][] board) {
+
+        for (int i = 0; i < board.length; i ++){
+            for (int j = 0; j < board[i].length; j ++){
+                get( board, i, j);
+            }
+        }
+        for (int i = 0; i < board.length; i ++){
+            for (int j = 0; j < board[i].length; j ++){
+                board[i][j] >>= 1;
+            }
+        }
+    }
+
+    private void get(int[][] board, int row, int col) {
+        if (row < 0 || col < 0 || row >= board.length || col >= board[row].length){
+            return ;
+        }
+        int count = 0;
+        // board[row - 1]
+        if (row - 1 >= 0){
+            count += board[row - 1][col]  & 1;
+            count += col - 1 >= 0 ? board[row - 1][col - 1] & 1: 0;
+            count += col + 1 < board[row - 1].length ? board[row - 1][col + 1]  & 1 : 0;
+        }
+        // board[row]
+        count += col - 1 >= 0 ? board[row][col - 1] & 1 : 0;
+        count += col + 1 < board[row].length ? board[row][col + 1] & 1 : 0;
+        // board[row + 1]
+        if (row + 1 < board.length){
+            count += board[row + 1][col] & 1;
+            count += col - 1 >= 0 ? board[row + 1][col - 1] & 1 : 0;
+            count += col + 1 < board[row + 1].length ? board[row + 1][col + 1] & 1 : 0;
+        }
+        if (board[row][col] == 1){
+            if (count == 2 || count == 3){
+                board[row][col] |= 2;
+            }
+        }else {
+            if (count == 3){
+                board[row][col] |= 2;
+            }
+        }
+    }
+
+}
