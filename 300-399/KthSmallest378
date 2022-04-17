@@ -1,0 +1,58 @@
+public class KthSmallest {
+
+
+    class Node {
+        int row;
+        int col;
+        int val;
+        Node(int row, int col, int val){
+            this.row = row;
+            this.col = col;
+            this.val = val;
+        }
+
+
+    }
+
+    class NodeComparator implements Comparator<Node>{
+
+
+        @Override
+        public int compare(Node o1, Node o2) {
+            return o1.val - o2.val;
+        }
+    }
+
+    public int kthSmallest(int[][] matrix, int k) {
+        int ans = 0;
+        int R = matrix.length;
+        if (R == 0 || matrix[0].length == 0){
+            return ans;
+        }
+        int C = matrix[0].length;
+        boolean[][] visited = new boolean[R][C];
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(new NodeComparator());
+        priorityQueue.add(new Node(0, 0, matrix[0][0]));
+        visited[0][0] = true;
+        ans = 0;
+        while (!priorityQueue.isEmpty()){
+            Node small = priorityQueue.poll();
+            ans = small.val;
+            if (k <= 0){
+                return ans;
+            }
+            int row = small.row;
+            int col = small.col;
+            if (row + 1 < R && !visited[row + 1][col]){
+                priorityQueue.add(new Node(row + 1, col, matrix[row + 1][col]));
+                visited[row + 1][col] = true;
+            }
+            if (col + 1 < C && ! visited[row][col + 1]){
+                priorityQueue.add(new Node(row, col + 1, matrix[row][col + 1]));
+                visited[row][col + 1] = true;
+            }
+            k --;
+        }
+        return ans;
+    }
+}
