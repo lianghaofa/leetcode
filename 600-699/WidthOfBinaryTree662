@@ -1,0 +1,42 @@
+public class WidthOfBinaryTree {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        int max = 1;
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        Queue<Integer> indexQueue = new LinkedList<>();
+        nodeQueue.add(root);
+        indexQueue.add(0);
+        while (!nodeQueue.isEmpty()){
+            int count = nodeQueue.size();
+            int s = Integer.MAX_VALUE;
+            int e = Integer.MIN_VALUE;
+            while (count > 0){
+                TreeNode node = nodeQueue.poll();
+                int cur = indexQueue.poll();
+                count --;
+                if (node.left != null){
+                    nodeQueue.add(node.left);
+                    indexQueue.add(cur * 2 + 1);
+                }
+                if (node.right != null){
+                    nodeQueue.add(node.right);
+                    indexQueue.add(cur * 2 + 2);
+                }
+                s = Math.min(s, cur);
+                e = Math.max(e, cur);
+            }
+            max = Math.max(max,  e - s + 1);
+            count = nodeQueue.size();
+        }
+        return max;
+    }
+}
