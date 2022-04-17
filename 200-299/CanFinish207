@@ -1,0 +1,71 @@
+public class CanFinish {
+
+    static class Node{
+        Set<Node> nodes;
+        // 入度
+        int count = 0;
+        int no;
+        Node(int no, int count){
+            this.no = no;
+            this.count = count;
+            nodes = new HashSet<>();
+        }
+    }
+
+    public static void main(String[] args) {
+        //canFinish(5, new int[][]{{1,4},{2,4},{3,1},{3,2}});
+        canFinish(20, new int[][]{{0,10},{3,18},{5,5},{3,2}});
+    }
+
+    public static boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap<Integer,Node> hashMap = new HashMap<>();
+        // prerequisites[i]  prerequisites[i][1] 先修   prerequisites[i][0]
+        HashSet<Node> zeroSet = new HashSet<>();
+        for (int[] prerequisite : prerequisites) {
+            int p0 = prerequisite[0];
+            int p1 = prerequisite[1];
+            if (p0 == p1) {
+                return false;
+            }
+            // prerequisites[i][1] 出度 ++ -> prerequisites[i][0] 入度 ++
+            Node node0 = hashMap.get(p0);
+            Node node1 = hashMap.get(p1);
+            // 入度 ++
+            if (node0 == null) {
+                node0 = new Node(p0, 1);
+                hashMap.putIfAbsent(p0, node0);
+            } else {
+                node0.count++;
+            }
+            // 出度  record children
+            if (node1 == null) {
+                node1 = new Node(p1, 0);
+                hashMap.putIfAbsent(p1, node1);
+            }
+            node1.nodes.add(node0);
+            // prerequisites[i][1] -> prerequisites[i][0]
+            zeroSet.remove(node0);
+            if (node1.count == 0) {
+                zeroSet.add(node1);
+            } else {
+                zeroSet.remove(node1);
+            }
+        }
+        Queue<Node> queue = new LinkedList<>(zeroSet);
+        while (!queue.isEmpty()){
+            Node node = queue.poll();
+            for (Node childNode : node.nodes){
+                childNode.count --;
+                if (childNode.count == 0){
+                    queue.add(childNode);
+                }
+            }
+        }
+        for (Node node : hashMap.values()){
+            if (node.count > 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
