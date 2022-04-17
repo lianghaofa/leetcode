@@ -1,0 +1,40 @@
+public class LongestIncreasingPath {
+
+
+    public static void main(String[] args) {
+        int[][] matrix = new int[3][];
+        matrix[0] = new int[]{9,9,4};
+        matrix[1] = new int[]{6,6,8};
+        matrix[2] = new int[]{2,1,1};
+        longestIncreasingPath(matrix);
+    }
+
+    public static int longestIncreasingPath(int[][] matrix) {
+        if (matrix.length == 0){
+            return 0;
+        }
+        int[][] visited = new int[matrix.length][matrix[0].length];
+        int res = 0;
+        for (int i = 0; i < matrix[0].length; i ++){
+            for (int j = 0; j < matrix[i].length; j ++){
+                res = Math.max(res, increasingPath(matrix, visited, i, j, -1));
+            }
+        }
+        return res;
+    }
+
+    public static int increasingPath(int[][] matrix,int[][] visited, int row, int col, int pre) {
+        if (row < 0 || col < 0 || row >= matrix.length || col >= matrix[row].length){
+            return 0;
+        }
+        if (matrix[row][col] < pre){
+            return 0;
+        }
+        if (visited[row][col] > 0){
+            return visited[row][col];
+        }
+        visited[row][col] = Math.max(Math.max(increasingPath( matrix,visited, row - 1, col, matrix[row][col]),increasingPath( matrix,visited, row + 1, col, matrix[row][col])),
+                Math.max(increasingPath( matrix,visited, row, col - 1, matrix[row][col]),increasingPath( matrix,visited, row, col + 1, matrix[row][col]))) + 1;
+        return visited[row][col];
+    }
+}
