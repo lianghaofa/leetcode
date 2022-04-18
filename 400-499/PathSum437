@@ -1,0 +1,46 @@
+public class PathSum {
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    public static void main(String[] args) {
+        TreeNode treeNode1 = new TreeNode(1);
+
+
+        //System.out.println(pathSum(treeNode1,1));
+
+    }
+
+    int ans = 0;
+    public int pathSum(TreeNode root, int targetSum) {
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        hashMap.put(0,1);
+        Sum(root, hashMap, 0, targetSum);
+        return ans;
+    }
+
+
+    public void Sum(TreeNode root ,HashMap<Integer,Integer> hashMap , int prefixSum, int targetSum) {
+        if (root == null){
+            return;
+        }
+        prefixSum += root.val;
+        Integer v = hashMap.get(prefixSum);
+        if (v == null){
+            v = 0;
+        }
+        // prefixSum - m = targetSum
+        Integer t = hashMap.get(prefixSum - targetSum);
+        if (t != null && t > 0){
+            ans += t;
+        }
+        hashMap.put(prefixSum, v + 1);
+        Sum(root.left ,hashMap , prefixSum, targetSum);
+        Sum(root.right ,hashMap , prefixSum, targetSum);
+        hashMap.put(prefixSum, v);
+    }
+
+}
