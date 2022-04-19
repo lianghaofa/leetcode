@@ -1,0 +1,29 @@
+public class ShortestToChar {
+
+    public int[] shortestToChar(String s, char c) {
+        int[] res = new int[s.length()];
+        int l = -1;
+        int r = 0;
+        while (r <= s.length()){
+            while (r < s.length() &&  s.charAt(r) != c){
+                r ++;
+            }
+            // 结算 l -- r
+            int i = l + 1;
+            while (i < r){
+                if (l == -1){
+                    res[i] = r - i;
+                }else if (r == s.length()){
+                    res[i] = i - l;
+                } else {
+                    res[i] = Math.min(r - i, i - l);
+                }
+                i ++;
+            }
+            l = r;
+            r ++;
+        }
+        return res;
+    }
+
+}
